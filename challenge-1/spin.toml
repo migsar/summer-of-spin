@@ -1,0 +1,26 @@
+spin_manifest_version = 2
+
+[application]
+name = "Challenge 1"
+version = "0.1.0"
+authors = ["Migsar Navarro <migsar.navarro@gmail.com>"]
+description = "Summer of spin challenge 1"
+
+[[trigger.http]]
+route = "/..."
+component = "challenge-one"
+
+[[trigger.http]]
+route = "/crypto"
+component = "crypto"
+
+[component.challenge-one]
+source = "target/wasm32-wasi/release/challenge_one.wasm"
+allowed_outbound_hosts = ["http://localhost:3000"]
+[component.challenge-one.build]
+command = "cargo build --target wasm32-wasi --release"
+watch = ["src/**/*.rs", "Cargo.toml"]
+
+[component.crypto]
+source = "encryption-module/main.wasm"
+allowed_outbound_hosts = ["http://localhost:3000"]

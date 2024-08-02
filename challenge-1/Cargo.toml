@@ -1,0 +1,18 @@
+[package]
+name = "challenge-one"
+authors = ["Migsar Navarro <migsar.navarro@gmail.com>"]
+description = "Summer of spin challenge 1"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow = "1"
+http = "1.1.0"
+serde = { version = "1.0.204", features = ["derive"] }
+serde_json = "1.0.122"
+spin-sdk = "3.0.1"
+
+[workspace]
