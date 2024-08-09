@@ -1,0 +1,19 @@
+spin_manifest_version = 2
+
+[application]
+name = "challenge_two"
+version = "0.1.0"
+authors = ["Migsar Navarro <migsar.navarro@gmail.com>"]
+description = "Summer of spin challenge two"
+
+[[trigger.http]]
+route = "/plan-my-trip"
+component = "challenge-two"
+
+[component.challenge-two]
+source = "target/wasm32-wasi/release/challenge_two.wasm"
+allowed_outbound_hosts = []
+ai_models = ["llama2-chat"]
+[component.challenge-two.build]
+command = "cargo build --target wasm32-wasi --release"
+watch = ["src/**/*.rs", "Cargo.toml"]
