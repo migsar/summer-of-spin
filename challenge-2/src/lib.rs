@@ -1,9 +1,12 @@
 use http::{StatusCode};
 use serde::{Deserialize, Serialize};
-use spin_sdk::http::{IntoResponse, Method, Request, Response};
-use spin_sdk::http_component;
-use spin_sdk::llm;
 use serde_json;
+use spin_sdk::{
+    http::{IntoResponse, Method, Request, Response},
+    http_component,
+    llm,
+    key_value::Store,
+};
 
 #[derive(Serialize, Deserialize)]
 struct EndpointResponse {
@@ -57,16 +60,23 @@ fn handle_challenge_two(req: Request) -> anyhow::Result<impl IntoResponse> {
     
     let resp = match *req.method() {
         Method::Post => { 
+            let store = Store::open_default()?;
             let body = req.body();
             let trip_info: TripInfo = serde_json::from_slice(body).unwrap();
-
+            let tag = format!(
+                "{}-{}",
+                trip_info.destination.to_lowercase().replace(" ", "-"),
+                trip_info.duration.to_lowercase().replace(" ", "-"),
+            );
             let prompt = create_prompt(trip_info);
             let itinerary = create_itinerary(prompt);
             let response_struct = EndpointResponse {
-                tag: "Something nice!".to_owned(),
-                itinerary: itinerary,
+                tag: tag.clone(),
+                itinerary: itinerary.clone(),
             };
             let response_json = serde_json::to_string(&response_struct)?;
+
+            store.set(tag.as_str(), itinerary.as_bytes())?;
             
             Response::builder()
                 .status(StatusCode::CREATED)

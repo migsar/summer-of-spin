@@ -12,11 +12,12 @@ POST http://localhost:3000/plan-my-trip
 HTTP 201
 [Asserts]
 jsonpath "$.itinerary" != null
+[Captures]
+tag: jsonpath "$.tag"
 
 # Test 2
 # Please note, that we will use a different set of values when validating your submission
-# GET http://localhost:3000/{{tag}}
-
-# HTTP 200
-# [Asserts]
-# jsonpath "$.itinerary" != null
+GET http://localhost:3000/{{tag}}
+HTTP 200
+[Asserts]
+jsonpath "$.itinerary" != null

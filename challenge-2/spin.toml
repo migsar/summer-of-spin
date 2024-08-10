@@ -13,7 +13,21 @@ component = "challenge-two"
 [component.challenge-two]
 source = "target/wasm32-wasi/release/challenge_two.wasm"
 allowed_outbound_hosts = []
+key_value_stores = ["default"]
 ai_models = ["llama2-chat"]
 [component.challenge-two.build]
 command = "cargo build --target wasm32-wasi --release"
 watch = ["src/**/*.rs", "Cargo.toml"]
+
+[[trigger.http]]
+route = "/:tag"
+component = "get-itinerary"
+
+[component.get-itinerary]
+source = "get-itinerary/target/get-itinerary.wasm"
+exclude_files = ["**/node_modules"]
+key_value_stores = ["default"]
+[component.get-itinerary.build]
+command = "npm run build"
+workdir = "get-itinerary"
+watch = ["src/**/*.ts", "package.json"]
