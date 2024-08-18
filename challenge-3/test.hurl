@@ -6,11 +6,11 @@ POST http://localhost:3000/api/start
     "gameId": "2c047c81-45ac-44cb-ac7b-ad8c73f55d8a",
     "grid": [
         [
-            "",
-            "",
-            "",
-            "",
-            ""
+            "a",
+            "p",
+            "p",
+            "l",
+            "e"
         ],
         [
             "",

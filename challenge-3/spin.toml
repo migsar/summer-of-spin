@@ -1,0 +1,19 @@
+spin_manifest_version = 2
+
+[application]
+name = "challenge-three"
+version = "0.1.0"
+authors = ["Migsar Navarro <migsar.navarro@gmail.com>"]
+description = ""
+
+[[trigger.http]]
+route = "/api/..."
+component = "challenge-three"
+
+[component.challenge-three]
+source = "target/wasm32-wasi/release/challenge_three.wasm"
+allowed_outbound_hosts = []
+key_value_stores = ["default"]
+[component.challenge-three.build]
+command = "cargo build --target wasm32-wasi --release"
+watch = ["src/**/*.rs", "Cargo.toml"]
