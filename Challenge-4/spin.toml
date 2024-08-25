@@ -1,0 +1,19 @@
+spin_manifest_version = 2
+
+[application]
+name = "challenge-four"
+version = "0.1.0"
+authors = ["Migsar Navarro <dev@migsar.com>"]
+description = ""
+
+[[trigger.http]]
+route = "/..."
+component = "challenge-four"
+
+[component.challenge-four]
+source = "target/wasm32-wasi/release/challenge_four.wasm"
+allowed_outbound_hosts = []
+key_value_stores = ["default"]
+[component.challenge-four.build]
+command = "cargo build --target wasm32-wasi --release"
+watch = ["src/**/*.rs", "Cargo.toml"]
